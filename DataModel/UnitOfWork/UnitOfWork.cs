@@ -10,7 +10,7 @@ using DataModel.GenericRepository;
 
 namespace DataModel.UnitOfWork
 {
-	public class UnitOfWork : IDisposable
+	public class UnitOfWork : IDisposable, IUnitOfWork
 	{
 		#region private members
 
