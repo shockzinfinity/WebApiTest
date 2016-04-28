@@ -15,9 +15,9 @@ namespace BusinessServices
 	{
 		private readonly UnitOfWork _unitOfWork;
 
-		public ProductServices()
+		public ProductServices(UnitOfWork unitOfWork)
 		{
-			_unitOfWork = new UnitOfWork();
+			_unitOfWork = unitOfWork;
 		}
 
 		#region IProductServices implementation
