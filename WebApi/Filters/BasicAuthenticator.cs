@@ -49,7 +49,8 @@ namespace WebApi.Filters
 					{
 						var claims = new List<Claim>()
 						{
-							new Claim(ClaimTypes.Name, userName)
+							new Claim(ClaimTypes.Name, userName),
+							new Claim("userId", userId.ToString())
 						};
 						var id = new ClaimsIdentity(claims, "Basic");
 						var principal = new ClaimsPrincipal(new[] { id });
