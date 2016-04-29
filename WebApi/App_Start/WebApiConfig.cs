@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using WebApi.Factory;
 
 namespace WebApi
 {
@@ -20,6 +21,10 @@ namespace WebApi
 			//	routeTemplate: "api/{controller}/{id}", // pattern or representation of URL
 			//	defaults: new { id = RouteParameter.Optional } // optional parameter
 			//);
+
+			// NOTE: ASP.NET CORS support 로 변경
+			// http://www.asp.net/web-api/overview/security/enabling-cross-origin-requests-in-web-api
+			config.SetCorsPolicyProviderFactory(new CorsPolicyFactory());
 		}
 	}
 }
