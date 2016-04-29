@@ -6,11 +6,13 @@ using System.Net.Http;
 using System.Web.Http;
 using BusinessEntities;
 using BusinessServices;
+using WebApi.ActionFilters;
 using WebApi.Filters;
 
 namespace WebApi.Controllers
 {
-	[BasicAuthenticator]
+	//[BasicAuthenticator] // Basic Authentication 에서 Token 으로 변경
+	[AuthorizationRequiredAttribute]
 	[RoutePrefix("v1/Products/Product")]
 	public class ProductController : ApiController
 	{
