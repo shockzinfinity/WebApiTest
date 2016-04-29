@@ -1,0 +1,8 @@
+15:48 2016-04-28
+
+Projects comments
+BusinessEntities - Transfer objects / Entities / POCO
+BusinessServices - Business logic / Services / Middle layer
+DataModel - DataModel / DomainModel / Database communication
+Resolver - Dependency resolver
+WebApi - Endpoint / REST / Web
