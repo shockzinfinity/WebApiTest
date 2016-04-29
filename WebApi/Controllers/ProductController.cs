@@ -6,9 +6,11 @@ using System.Net.Http;
 using System.Web.Http;
 using BusinessEntities;
 using BusinessServices;
+using WebApi.Filters;
 
 namespace WebApi.Controllers
 {
+	[BasicAuthenticator]
 	[RoutePrefix("v1/Products/Product")]
 	public class ProductController : ApiController
 	{

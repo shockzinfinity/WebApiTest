@@ -15,6 +15,7 @@ namespace BusinessServices
 		public void Setup(Resolver.IRegisterComponent registerComponent)
 		{
 			registerComponent.RegisterType<IProductServices, ProductServices>();
+			registerComponent.RegisterType<IUserServices, UserServices>();
 		}
 
 		#endregion
