@@ -6,9 +6,14 @@ using System.Net.Http;
 using System.Web.Http;
 using BusinessEntities;
 using BusinessServices;
+using WebApi.ActionFilters;
+using WebApi.Filters;
 
 namespace WebApi.Controllers
 {
+	//[BasicAuthenticator] // Basic Authentication 에서 Token 으로 변경
+	[AuthorizationRequiredAttribute]
+	[RoutePrefix("v1/Products/Product")]
 	public class ProductController : ApiController
 	{
 		private readonly IProductServices _productServices;
@@ -19,6 +24,9 @@ namespace WebApi.Controllers
 		}
 
 		// GET: api/Product
+		[HttpGet]
+		[Route("allproducts")]
+		[Route("all")]
 		public HttpResponseMessage Get()
 		{
 			var products = _productServices.GetAllProducts();
@@ -29,6 +37,10 @@ namespace WebApi.Controllers
 		}
 
 		// GET: api/Product/5
+		[HttpGet]
+		[Route("productid/{id?}")]
+		[Route("particularproduct/{id?}")]
+		[Route("myproduct/{id:range(1, 3)}")]
 		public HttpResponseMessage Get(int id)
 		{
 			var product = _productServices.GetProductById(id);
@@ -38,12 +50,18 @@ namespace WebApi.Controllers
 		}
 
 		// POST: api/Product
+		[HttpPost]
+		[Route("Create")]
+		[Route("Register")]
 		public int Post([FromBody]ProductEntity productEntity)
 		{
 			return _productServices.CreateProduct(productEntity);
 		}
 
 		// PUT: api/Product/5
+		[HttpPut]
+		[Route("Update/productid/{id}")]
+		[Route("Modify/productid/{id}")]
 		public bool Put(int id, [FromBody]ProductEntity productEntity)
 		{
 			if (id > 0)
@@ -54,7 +72,19 @@ namespace WebApi.Controllers
 		}
 
 		// DELETE: api/Product/5
+		[HttpDelete]
+		[Route("remove/productid/{id}")]
+		[Route("clear/productid/{id}")]
 		public bool Delete(int id)
+		{
+			if (id > 0)
+				return _productServices.DeleteProduct(id);
+			return false;
+		}
+
+		[HttpPut]
+		[Route("delete/productid/{id}")]
+		public bool PutDelete(int id)
 		{
 			if (id > 0)
 				return _productServices.DeleteProduct(id);

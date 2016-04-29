@@ -14,11 +14,12 @@ namespace WebApi
 			// Web API 경로
 			config.MapHttpAttributeRoutes();
 
-			config.Routes.MapHttpRoute(
-				name: "DefaultApi",
-				routeTemplate: "api/{controller}/{id}",
-				defaults: new { id = RouteParameter.Optional }
-			);
+			// 지정한 라우팅 외에 다른 기본 라우팅 제거를 위해 아래를 주석처리
+			//config.Routes.MapHttpRoute(
+			//	name: "DefaultApi", // name of default route
+			//	routeTemplate: "api/{controller}/{id}", // pattern or representation of URL
+			//	defaults: new { id = RouteParameter.Optional } // optional parameter
+			//);
 		}
 	}
 }
