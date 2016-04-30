@@ -35,9 +35,8 @@ namespace WebApi
 			formatters.XmlFormatter.SupportedMediaTypes.Remove(appXmlType);
 
 			// CORS handler
-			GlobalConfiguration.Configuration.MessageHandlers.Add(new CorsHandler());
-			// TODO: ASP.NET CORS support 로 변경
-			// http://www.asp.net/web-api/overview/security/enabling-cross-origin-requests-in-web-api
+			// NOTE: AspNet CORS 로 변경
+			//GlobalConfiguration.Configuration.MessageHandlers.Add(new CorsHandler());
 		}
 	}
 }
