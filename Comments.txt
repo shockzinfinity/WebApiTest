@@ -6,3 +6,8 @@ BusinessServices - Business logic / Services / Middle layer
 DataModel - DataModel / DomainModel / Database communication
 Resolver - Dependency resolver
 WebApi - Endpoint / REST / Web
+
+17:07 2016-04-30
+API Exceptions - for API level exceptions.
+Business Exceptions - for exceptions at business logic level.
+Data Exceptions - Data related exceptions.

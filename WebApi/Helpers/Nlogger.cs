@@ -42,7 +42,10 @@ namespace WebApi.Helpers
 				if (record.Request.RequestUri != null)
 					message.Append("").Append("URL: " + record.Request.RequestUri + Environment.NewLine);
 
-				if (record.Request.Headers != null && record.Request.Headers.Contains("Token") && record.Request.Headers.GetValues("Token") != null && record.Request.Headers.GetValues("Token").FirstOrDefault() != null)
+				if (record.Request.Headers != null &&
+					record.Request.Headers.Contains("Token") &&
+					record.Request.Headers.GetValues("Token") != null &&
+					record.Request.Headers.GetValues("Token").FirstOrDefault() != null)
 					message.Append("").Append("Token: " + record.Request.Headers.GetValues("Token").FirstOrDefault() + Environment.NewLine);
 			}
 
@@ -56,36 +59,43 @@ namespace WebApi.Helpers
 			{
 				var exceptionType = record.Exception.GetType();
 				message.Append(Environment.NewLine);
-				if (exceptionType == typeof(ApiException))
-				{
-					var exception = record.Exception as ApiException;
-					if (exception != null)
-					{
-						message.Append("").Append("Error: " + exception.ErrorDescription + Environment.NewLine);
-						message.Append("").Append("Error Code: " + exception.ErrorCode + Environment.NewLine);
-					}
-				}
-				else if (exceptionType == typeof(ApiBusinessException))
-				{
-					var exception = record.Exception as ApiBusinessException;
-					if (exception != null)
-					{
-						message.Append("").Append("Error: " + exception.ErrorDescription + Environment.NewLine);
-						message.Append("").Append("Error Code: " + exception.ErrorCode + Environment.NewLine);
-					}
-				}
-				else if (exceptionType == typeof(ApiDataException))
-				{
-					var exception = record.Exception as ApiDataException;
-					if (exception != null)
-					{
-						message.Append("").Append("Error: " + exception.ErrorDescription + Environment.NewLine);
-						message.Append("").Append("Error Code: " + exception.ErrorCode + Environment.NewLine);
-					}
-				}
-				else
-					message.Append("").Append("Error: " + record.Exception.GetBaseException().Message + Environment.NewLine);
+				message.Append("").Append("Error: " + record.Exception.GetBaseException().Message + Environment.NewLine);
 			}
+
+			//if (record.Exception != null && !string.IsNullOrWhiteSpace(record.Exception.GetBaseException().Message))
+			//{
+			//	var exceptionType = record.Exception.GetType();
+			//	message.Append(Environment.NewLine);
+			//	if (exceptionType == typeof(ApiException))
+			//	{
+			//		var exception = record.Exception as ApiException;
+			//		if (exception != null)
+			//		{
+			//			message.Append("").Append("Error: " + exception.ErrorDescription + Environment.NewLine);
+			//			message.Append("").Append("Error Code: " + exception.ErrorCode + Environment.NewLine);
+			//		}
+			//	}
+			//	else if (exceptionType == typeof(ApiBusinessException))
+			//	{
+			//		var exception = record.Exception as ApiBusinessException;
+			//		if (exception != null)
+			//		{
+			//			message.Append("").Append("Error: " + exception.ErrorDescription + Environment.NewLine);
+			//			message.Append("").Append("Error Code: " + exception.ErrorCode + Environment.NewLine);
+			//		}
+			//	}
+			//	else if (exceptionType == typeof(ApiDataException))
+			//	{
+			//		var exception = record.Exception as ApiDataException;
+			//		if (exception != null)
+			//		{
+			//			message.Append("").Append("Error: " + exception.ErrorDescription + Environment.NewLine);
+			//			message.Append("").Append("Error Code: " + exception.ErrorCode + Environment.NewLine);
+			//		}
+			//	}
+			//	else
+			//		message.Append("").Append("Error: " + record.Exception.GetBaseException().Message + Environment.NewLine);
+			//}
 
 			Logger[record.Level](Convert.ToString(message) + Environment.NewLine);
 		}
