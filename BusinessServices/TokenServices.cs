@@ -12,9 +12,9 @@ namespace BusinessServices
 {
 	public class TokenServices : ITokenServices
 	{
-		private readonly UnitOfWork _unitOfWork;
+		private readonly IUnitOfWork _unitOfWork;
 
-		public TokenServices(UnitOfWork unitOfWork)
+		public TokenServices(IUnitOfWork unitOfWork)
 		{
 			_unitOfWork = unitOfWork;
 		}

@@ -9,9 +9,9 @@ namespace BusinessServices
 {
 	public class UserServices : IUserServices
 	{
-		private readonly UnitOfWork _unitOfWork;
+		private readonly IUnitOfWork _unitOfWork;
 
-		public UserServices(UnitOfWork unitOfWork)
+		public UserServices(IUnitOfWork unitOfWork)
 		{
 			_unitOfWork = unitOfWork;
 		}
