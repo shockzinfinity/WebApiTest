@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace WebApi.App_Start
 {
+	[Obsolete("CORS 적용은 ASP.NET WebAPI 2의 CORS 를 사용하기로 합니다.")]
 	public class CorsHandler : DelegatingHandler
 	{
 		private const string Origin = "Origin";

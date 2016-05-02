@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using WebApi.App_Start;
 
 namespace WebApi
 {
