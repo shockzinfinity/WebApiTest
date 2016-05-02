@@ -9,24 +9,24 @@
 
 namespace DataModel
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Infrastructure;
-    
-    public partial class WebApiDbEntities : DbContext
-    {
-        public WebApiDbEntities()
-            : base("name=WebApiDbEntities")
-        {
-        }
-    
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            throw new UnintentionalCodeFirstException();
-        }
-    
-        public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<Token> Tokens { get; set; }
-        public virtual DbSet<User> Users { get; set; }
-    }
+	using System;
+	using System.Data.Entity;
+	using System.Data.Entity.Infrastructure;
+
+	public partial class WebApiDbEntities : DbContext
+	{
+		public WebApiDbEntities()
+			: base("name=WebApiDbEntities")
+		{
+		}
+
+		protected override void OnModelCreating(DbModelBuilder modelBuilder)
+		{
+			throw new UnintentionalCodeFirstException();
+		}
+
+		public DbSet<Product> Products { get; set; }
+		public DbSet<Token> Tokens { get; set; }
+		public DbSet<User> Users { get; set; }
+	}
 }

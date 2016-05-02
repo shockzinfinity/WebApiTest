@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using AutoMapper;
 using BusinessEntities;
@@ -12,6 +13,7 @@ using TestsHelper;
 
 namespace BusinessServices.Tests
 {
+	[TestFixture]
 	public class ProductServicesTest
 	{
 		#region variables
@@ -30,6 +32,18 @@ namespace BusinessServices.Tests
 			_products = SetUpProducts();
 		}
 
+		[SetUp]
+		public void ReInitializeTest()
+		{
+			_products = SetUpProducts();
+			_dbEntities = new Mock<WebApiDbEntities>().Object;
+			_productRepository = SetUpProductRepository();
+			var unitOfWork = new Mock<IUnitOfWork>();
+			unitOfWork.SetupGet(s => s.ProductRepository).Returns(_productRepository);
+			_unitOfWork = unitOfWork.Object;
+			_productServices = new ProductServices(_unitOfWork);
+		}
+
 		private static List<Product> SetUpProducts()
 		{
 			var productId = new int();
@@ -40,32 +54,6 @@ namespace BusinessServices.Tests
 			}
 
 			return products;
-		}
-
-		[TestFixtureTearDown]
-		public void DisposeAllObjects()
-		{
-			_products = null;
-		}
-
-		[SetUp]
-		public void ReInitializeTest()
-		{
-			_dbEntities = new Mock<WebApiDbEntities>().Object;
-			_productRepository = SetUpProductRepository();
-			var unitOfWork = new Mock<IUnitOfWork>();
-			unitOfWork.SetupGet(s => s.ProductRepository).Returns(_productRepository);
-			_unitOfWork = unitOfWork.Object;
-			_productServices = new ProductServices(_unitOfWork);
-		}
-
-		[TearDown]
-		public void DisposeTest()
-		{
-			_productServices = null;
-			_unitOfWork = null;
-			_productRepository = null;
-			if (_dbEntities != null) _dbEntities.Dispose();
 		}
 
 		private GenericRepository<Product> SetUpProductRepository()
@@ -174,6 +162,22 @@ namespace BusinessServices.Tests
 			// remove last product
 			_productServices.DeleteProduct(lastProduct.ProductId);
 			Assert.That(maxId, Is.GreaterThan(_products.Max(a => a.ProductId))); // max id reduced by 1
+		}
+
+		[TearDown]
+		public void DisposeTest()
+		{
+			_productServices = null;
+			_unitOfWork = null;
+			_productRepository = null;
+			if (_dbEntities != null) _dbEntities.Dispose();
+			_products = null;
+		}
+
+		[TestFixtureTearDown]
+		public void DisposeAllObjects()
+		{
+			_products = null;
 		}
 	}
 }

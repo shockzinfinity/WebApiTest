@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace DataModel.GenericRepository
 {
-	public class GenericRepository<TEntity> where TEntity:class
+	public class GenericRepository<TEntity> where TEntity : class
 	{
 		#region private members
 
