@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataModel.GenericRepository
 {
-	public class GenericRepository<TEntity> where TEntity:class
+	public class GenericRepository<TEntity> where TEntity : class
 	{
 		#region private members
 
