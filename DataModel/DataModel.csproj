@@ -90,6 +90,9 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>WebApiDataModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="WebApiDataModel.edmx.diagram">
+      <DependentUpon>WebApiDataModel.edmx</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

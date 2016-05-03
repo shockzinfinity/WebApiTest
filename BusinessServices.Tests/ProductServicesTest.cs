@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using AutoMapper;
 using BusinessEntities;
@@ -12,6 +13,7 @@ using TestsHelper;
 
 namespace BusinessServices.Tests
 {
+	[TestFixture]
 	public class ProductServicesTest
 	{
 		#region variables
@@ -182,6 +184,7 @@ namespace BusinessServices.Tests
 			_unitOfWork = null;
 			_productRepository = null;
 			if (_dbEntities != null) _dbEntities.Dispose();
+			_products = null;
 		}
 
 		[TestFixtureTearDown]
