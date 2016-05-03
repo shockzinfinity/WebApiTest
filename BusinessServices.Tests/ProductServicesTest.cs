@@ -32,18 +32,6 @@ namespace BusinessServices.Tests
 			_products = SetUpProducts();
 		}
 
-		[SetUp]
-		public void ReInitializeTest()
-		{
-			_products = SetUpProducts();
-			_dbEntities = new Mock<WebApiDbEntities>().Object;
-			_productRepository = SetUpProductRepository();
-			var unitOfWork = new Mock<IUnitOfWork>();
-			unitOfWork.SetupGet(s => s.ProductRepository).Returns(_productRepository);
-			_unitOfWork = unitOfWork.Object;
-			_productServices = new ProductServices(_unitOfWork);
-		}
-
 		private static List<Product> SetUpProducts()
 		{
 			var productId = new int();
@@ -56,30 +44,55 @@ namespace BusinessServices.Tests
 			return products;
 		}
 
+		[SetUp]
+		public void ReInitializeTest()
+		{
+			_products = SetUpProducts();
+			_dbEntities = new Mock<WebApiDbEntities>().Object;
+			_productRepository = SetUpProductRepository();
+			var unitOfWork = new Mock<IUnitOfWork>();
+			unitOfWork.SetupGet(s => s.ProductRepository).Returns(_productRepository);
+			_unitOfWork = unitOfWork.Object;
+			_productServices = new ProductServices(_unitOfWork);
+		}
+
 		private GenericRepository<Product> SetUpProductRepository()
 		{
 			// initialize repository
 			var mockRepo = new Mock<GenericRepository<Product>>(MockBehavior.Default, _dbEntities);
+
 			// setup moking behavior
 			mockRepo.Setup(p => p.GetAll()).Returns(_products);
-			mockRepo.Setup(p => p.GetById(It.IsAny<int>())).Returns(new Func<int, Product>(id => _products.Find(p => p.ProductId.Equals(id))));
-			mockRepo.Setup(p => p.Insert(It.IsAny<Product>())).Callback(new Action<Product>(newProduct =>
-			  {
-				  dynamic maxProductId = _products.Last().ProductId;
-				  dynamic nextProductId = maxProductId + 1;
-				  newProduct.ProductId = nextProductId;
-				  _products.Add(newProduct);
-			  }));
-			mockRepo.Setup(p => p.Update(It.IsAny<Product>())).Callback(new Action<Product>(prod =>
-			  {
-				  var oldProduct = _products.Find(a => a.ProductId == prod.ProductId);
-				  oldProduct = prod;
-			  }));
-			mockRepo.Setup(p => p.Delete(It.IsAny<Product>())).Callback(new Action<Product>(prod =>
-			  {
-				  var productToRemove = _products.Find(a => a.ProductId == prod.ProductId);
-				  if (productToRemove != null) _products.Remove(productToRemove);
-			  }));
+
+			mockRepo.Setup(p => p.GetById(It.IsAny<int>()))
+				.Returns(new Func<int, Product>(
+					id => _products.Find(p => p.ProductId.Equals(id))));
+
+			mockRepo.Setup(p => p.Insert(It.IsAny<Product>()))
+				.Callback(new Action<Product>(newProduct =>
+														{
+															dynamic maxProductId = _products.Last().ProductId;
+															dynamic nextProductId = maxProductId + 1;
+															newProduct.ProductId = nextProductId;
+															_products.Add(newProduct);
+														}));
+
+			mockRepo.Setup(p => p.Update(It.IsAny<Product>()))
+				.Callback(new Action<Product>(prod =>
+												{
+													var oldProduct = _products.Find(a => a.ProductId == prod.ProductId);
+													oldProduct = prod;
+												}));
+
+			mockRepo.Setup(p => p.Delete(It.IsAny<Product>()))
+				.Callback(new Action<Product>(prod =>
+												{
+													var productToRemove =
+														_products.Find(a => a.ProductId == prod.ProductId);
+
+													if (productToRemove != null)
+														_products.Remove(productToRemove);
+												}));
 
 			// return mock implementation object
 			return mockRepo.Object;
