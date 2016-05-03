@@ -23,6 +23,11 @@ namespace WebApi.Controllers
 		}
 
 		// GET: api/Product
+		//[Queryable(AllowedQueryOptions = System.Web.Http.OData.Query.AllowedQueryOptions.Filter | System.Web.Http.OData.Query.AllowedQueryOptions.OrderBy)]
+		//[Queryable(AllowedOrderByProperties = "ProductId")]
+		//[Queryable(AllowedLogicalOperators = System.Web.Http.OData.Query.AllowedLogicalOperators.GreaterThan)]
+		//[Queryable(AllowedArithmeticOperators = System.Web.Http.OData.Query.AllowedArithmeticOperators.Add)]
+		[Queryable(PageSize = 10)]
 		[HttpGet]
 		[Route("allproducts")]
 		[Route("all")]
@@ -31,7 +36,7 @@ namespace WebApi.Controllers
 			var products = _productServices.GetAllProducts();
 			var productEntities = products as List<ProductEntity> ?? products.ToList();
 			if (productEntities.Any())
-				return Request.CreateResponse(HttpStatusCode.OK, productEntities);
+				return Request.CreateResponse(HttpStatusCode.OK, productEntities.AsQueryable());
 			//return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Products not found.");
 			throw new ApiDataException(1000, "Products not found.", HttpStatusCode.NotFound);
 		}
