@@ -44,15 +44,10 @@ namespace BusinessServices.Tests
 			return products;
 		}
 
-		[TestFixtureTearDown]
-		public void DisposeAllObjects()
-		{
-			_products = null;
-		}
-
 		[SetUp]
 		public void ReInitializeTest()
 		{
+			_products = SetUpProducts();
 			_dbEntities = new Mock<WebApiDbEntities>().Object;
 			_productRepository = SetUpProductRepository();
 			var unitOfWork = new Mock<IUnitOfWork>();
@@ -61,39 +56,43 @@ namespace BusinessServices.Tests
 			_productServices = new ProductServices(_unitOfWork);
 		}
 
-		[TearDown]
-		public void DisposeTest()
-		{
-			_productServices = null;
-			_unitOfWork = null;
-			_productRepository = null;
-			if (_dbEntities != null) _dbEntities.Dispose();
-		}
-
 		private GenericRepository<Product> SetUpProductRepository()
 		{
 			// initialize repository
 			var mockRepo = new Mock<GenericRepository<Product>>(MockBehavior.Default, _dbEntities);
+
 			// setup moking behavior
 			mockRepo.Setup(p => p.GetAll()).Returns(_products);
-			mockRepo.Setup(p => p.GetById(It.IsAny<int>())).Returns(new Func<int, Product>(id => _products.Find(p => p.ProductId.Equals(id))));
-			mockRepo.Setup(p => p.Insert(It.IsAny<Product>())).Callback(new Action<Product>(newProduct =>
-			  {
-				  dynamic maxProductId = _products.Last().ProductId;
-				  dynamic nextProductId = maxProductId + 1;
-				  newProduct.ProductId = nextProductId;
-				  _products.Add(newProduct);
-			  }));
-			mockRepo.Setup(p => p.Update(It.IsAny<Product>())).Callback(new Action<Product>(prod =>
-			  {
-				  var oldProduct = _products.Find(a => a.ProductId == prod.ProductId);
-				  oldProduct = prod;
-			  }));
-			mockRepo.Setup(p => p.Delete(It.IsAny<Product>())).Callback(new Action<Product>(prod =>
-			  {
-				  var productToRemove = _products.Find(a => a.ProductId == prod.ProductId);
-				  if (productToRemove != null) _products.Remove(productToRemove);
-			  }));
+
+			mockRepo.Setup(p => p.GetById(It.IsAny<int>()))
+				.Returns(new Func<int, Product>(
+					id => _products.Find(p => p.ProductId.Equals(id))));
+
+			mockRepo.Setup(p => p.Insert(It.IsAny<Product>()))
+				.Callback(new Action<Product>(newProduct =>
+														{
+															dynamic maxProductId = _products.Last().ProductId;
+															dynamic nextProductId = maxProductId + 1;
+															newProduct.ProductId = nextProductId;
+															_products.Add(newProduct);
+														}));
+
+			mockRepo.Setup(p => p.Update(It.IsAny<Product>()))
+				.Callback(new Action<Product>(prod =>
+												{
+													var oldProduct = _products.Find(a => a.ProductId == prod.ProductId);
+													oldProduct = prod;
+												}));
+
+			mockRepo.Setup(p => p.Delete(It.IsAny<Product>()))
+				.Callback(new Action<Product>(prod =>
+												{
+													var productToRemove =
+														_products.Find(a => a.ProductId == prod.ProductId);
+
+													if (productToRemove != null)
+														_products.Remove(productToRemove);
+												}));
 
 			// return mock implementation object
 			return mockRepo.Object;
@@ -176,6 +175,21 @@ namespace BusinessServices.Tests
 			// remove last product
 			_productServices.DeleteProduct(lastProduct.ProductId);
 			Assert.That(maxId, Is.GreaterThan(_products.Max(a => a.ProductId))); // max id reduced by 1
+		}
+
+		[TearDown]
+		public void DisposeTest()
+		{
+			_productServices = null;
+			_unitOfWork = null;
+			_productRepository = null;
+			if (_dbEntities != null) _dbEntities.Dispose();
+		}
+
+		[TestFixtureTearDown]
+		public void DisposeAllObjects()
+		{
+			_products = null;
 		}
 	}
 }
