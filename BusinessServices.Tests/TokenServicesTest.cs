@@ -10,6 +10,7 @@ using TestsHelper;
 
 namespace BusinessServices.Tests
 {
+	[TestFixture]
 	public class TokenServicesTest
 	{
 		#region variables

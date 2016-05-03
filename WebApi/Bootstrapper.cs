@@ -49,6 +49,7 @@ namespace WebApi
 			// 3. Database transaction 등이 서비스에 노출되지 않으므로 구조적으로 보안상의 위험을 줄일수 있다.
 			ComponentLoader.LoadContainer(container, ".\\bin", "WebApi.dll"); // WebApi 프로젝트에서 등록
 			ComponentLoader.LoadContainer(container, ".\\bin", "BusinessServices.dll"); // BusinessServices 프로젝트에서 등록
+			ComponentLoader.LoadContainer(container, ".\\bin", "DataModel.dll"); // BusinessServices 프로젝트에서 등록
 		}
 	}
 }
