@@ -5,7 +5,6 @@ using System.ComponentModel.Composition.Primitives;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 
 namespace Resolver

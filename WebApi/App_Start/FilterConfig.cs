@@ -1,6 +1,4 @@
-﻿using System.Web;
-using System.Web.Mvc;
-using WebApi.Filters;
+﻿using System.Web.Mvc;
 
 namespace WebApi
 {

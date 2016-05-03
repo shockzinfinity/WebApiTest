@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DataModel.GenericRepository;
 
 namespace DataModel.UnitOfWork
